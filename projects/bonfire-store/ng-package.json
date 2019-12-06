@@ -3,5 +3,6 @@
   "dest": "../../dist/bonfire-store",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": ["."]
 }
