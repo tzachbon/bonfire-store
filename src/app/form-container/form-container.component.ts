@@ -53,10 +53,6 @@ export class FormContainerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.form.group.valueChanges.subscribe(res => {
-
-
-    });
 
   }
 

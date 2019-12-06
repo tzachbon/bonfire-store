@@ -1,5 +1,7 @@
 import { BonfireStoreService } from './bonfire-store.service';
 import { BonfireStore } from './bonfire-store.model';
+import * as onChange from 'on-change';
+
 
 function handleErrors(errorType: BonfireStore.ErrorType) {
   let errorMessage: string;

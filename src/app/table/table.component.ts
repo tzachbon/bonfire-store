@@ -1,10 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { BonfireStore, BonfireStoreService, FromStore } from 'bonfire-store';
 import { Store } from '../app.module';
+import { EditFoodDialogComponent } from '../shared/components/edit-food-dialog/edit-food-dialog.component';
 import { Food, TableDataSource } from './table-datasource';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-table',
@@ -13,44 +16,42 @@ import { Food, TableDataSource } from './table-datasource';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatTable, { static: false }) table: MatTable<Food>;
-  dataSource: TableDataSource;
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[] = [];
   @FromStore('food') food$: BonfireStore.FromStore<Food>;
 
   constructor(
     private storeService: BonfireStoreService<Store>,
+    private dialog: MatDialog
   ) { }
 
 
   ngOnInit() {
-    // this.displayedColumns = ['name', 'desc'];
-    // const food = this.storeService.store.food;
-    // this.dataSource = new TableDataSource(food);
 
-    // const food$ = this.storeService.get$('food')
-    //   .pipe(
-    //     delay(0)
-    //   )
-    //   .subscribe(data => {
-    //     // this.dataSource = new TableDataSource(data);
-    //     // this.table.dataSource = this.dataSource;
-    //     this.cd.detectChanges();
-    //     // this.paginator._changePageSize(this.paginator.pageSize);
-    //   });
+  }
 
+  openDialog(food: Food, index: number) {
+    const dialogRef = this.dialog.open<EditFoodDialogComponent, { food: Food, index: number }>(EditFoodDialogComponent, {
+      data: {
+        food,
+        index
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(r => !!r)
+      )
+      .subscribe((res: { value: Food, shouldDelete: boolean }) => {
+        if (res.shouldDelete) {
+          this.storeService.store.food.splice(index, 1);
+        } else {
+          this.storeService.store.food[index] = res.value;
+        }
+      });
 
 
   }
 
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.table.dataSource = this.dataSource;
   }
 }

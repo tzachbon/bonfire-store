@@ -29,10 +29,10 @@ export namespace BonfireStore {
       }
     }
 
-    get$(key?: keyof T,
-      callback?: (
-        value: BonfireStore.ValueOf<T>
-      ) => void): Observable<BonfireStore.ValueOf<T>> {
+    get$(
+      key?: keyof T,
+      callback?: (value: BonfireStore.ValueOf<T>) => void
+    ): Observable<BonfireStore.ValueOf<T>> {
 
       const mapCallback = store => key ? store[key as keyof T] : store;
 
@@ -48,6 +48,10 @@ export namespace BonfireStore {
 
     set$<J = any>(key: keyof T, value: J) {
       this.store[key] = value as any;
+    }
+
+    _get(key: keyof T) {
+      return this.store[key];
     }
   }
 

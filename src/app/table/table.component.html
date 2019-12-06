@@ -28,7 +28,12 @@
     <span class="value">name</span>
     <span class="value">desc</span>
   </div>
-  <div class="row" *ngFor="let data of food$ | async" [ngClass]="{ odd: odd }">
+  <div
+    class="row"
+    (click)="openDialog(data, i)"
+    *ngFor="let data of food$ | async; let i = index"
+    [ngClass]="{ odd: odd }"
+  >
     <span class="value" *ngFor="let item of data | entries">
       {{ item.value }}
     </span>

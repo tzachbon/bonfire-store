@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Hi</h1>
+<form [formGroup]="state?.store?.form" (ngSubmit)="submit()">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Name" />
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput formControlName="desc" placeholder="Desc"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button type="button" color="warn" (click)="delete()">Delete</button>
+    <button mat-button [disabled]="state?.store?.form?.invalid" cdkFocusInitial>
+      Ok
+    </button>
+  </div>
+</form>
