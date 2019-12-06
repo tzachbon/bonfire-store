@@ -1,0 +1,32 @@
+<div class="form-container">
+  <form [formGroup]="form.group" (ngSubmit)="onSubmit($event)">
+    <ng-container *ngFor="let item of form.formView | entries: true:'index'">
+      <ng-container [ngSwitch]="item.value.type">
+        <mat-checkbox *ngSwitchCase="'checkbox'" [formControlName]="item.key">{{
+          item.value.placeholder
+        }}</mat-checkbox>
+        <mat-form-field *ngSwitchCase="'input'">
+          <input
+            matInput
+            [placeholder]="item.value.placeholder"
+            [formControlName]="item.key"
+          />
+        </mat-form-field>
+        <mat-form-field *ngSwitchCase="'textarea'">
+          <textarea
+            matInput
+            matTextareaAutosize
+            required
+            [formControlName]="item.key"
+            [placeholder]="item.value.placeholder"
+          ></textarea>
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+    <div class="btn-container">
+      <button mat-fab [disabled]="form.group.invalid">
+        <mat-icon class="mat-14">send</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

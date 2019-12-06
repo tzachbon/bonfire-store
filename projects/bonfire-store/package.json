@@ -1,0 +1,11 @@
+{
+  "name": "bonfire-store",
+  "version": "0.0.1",
+  "dependencies": {
+    "@intelligo.ai/bonfire": "^1.0.912"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14"
+  }
+}
